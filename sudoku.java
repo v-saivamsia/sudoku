@@ -7,17 +7,20 @@ public class sudoku {
     private List<Set<Integer>> rows=new ArrayList<Set<Integer>>(10),columns=new ArrayList<Set<Integer>>(10),boxes=new ArrayList<Set<Integer>>(10);
     private int[][] helper=new int[10][10];
     private void sudokufiller(int[][] arr,int i,int j,int count){
-        for(Iterator<Integer> I=rows.get(i).iterator();I.hasNext();){
-            int temp=I.next();
-            if(columns.get(j).contains(temp)&&boxes.get(helper[i][j]).contains(temp)){
+        for(int temp:new LinkedList<Integer>(rows.get(i))){
+            if(columns.get(j).contains(temp) && boxes.get(helper[i][j]).contains(temp) ){
+                rows.get(i).remove(temp);
                 columns.get(j).remove(temp);
                 boxes.get(helper[i][j]).remove(temp);
                 arr[i][j]=temp;
-                for (int a = i; a <= 9; a++) {
-                    for (int b = j; b <= 9; b++) 
+                for (int a = 1; a <= 9; a++) {
+                    for (int b = 1; b <= 9; b++){
+                        System.out.println(count);
                         if(arr[a][b]==0) sudokufiller(arr,a,b,count-1);
                         if(count==0) return;
+                    }
                 }
+                rows.get(i).add(temp);
                 columns.get(j).add(temp);
                 boxes.get(helper[i][j]).add(temp);
                 arr[i][j]=0;
